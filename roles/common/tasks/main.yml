@@ -1,0 +1,8 @@
+- name: get hostname
+  shell: hostname
+- name: copy file
+  copy:
+   src: /tmp/abc.txt
+   dest: /tmp/abc.txt
+   mode: '0755'
+  notify: restart apache

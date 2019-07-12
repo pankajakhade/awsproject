@@ -1,0 +1,10 @@
+- hosts: ec2_server
+  tasks:
+    - name: get abc.txt permissions
+      acl:
+        path: /tmp/abc.txt
+        state: query
+      register: tmp
+    - name: print permissions
+      debug:
+        msg: "{{ tmp }}"

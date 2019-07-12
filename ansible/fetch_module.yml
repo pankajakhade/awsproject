@@ -1,0 +1,11 @@
+- hosts: ec2_server
+  tasks:
+        - name: fetch file from remote hosts
+          fetch:
+                src: /tmp/abc.txt
+                dest: /tmp
+        - name: fetch file into /tmp
+          fetch: 
+                src: /tmp/abc.txt
+                dest: /tmp/
+                flat: yes

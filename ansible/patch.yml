@@ -1,0 +1,6 @@
+- hosts: ec2_server
+  tasks:
+        - name: patch file
+          patch:
+                src: /tmp/abc.txt.patch
+                dest: /tmp/abc.txt

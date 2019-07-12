@@ -1,0 +1,7 @@
+- hosts: ec2_server
+  tasks:
+    - name: Case insensitive password string match
+      expect:
+       command: passwd username
+       responses:
+          (?i)password: "MySekretPa$$word"

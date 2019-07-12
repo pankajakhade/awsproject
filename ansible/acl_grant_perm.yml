@@ -1,0 +1,9 @@
+- hosts: ec2_server
+  tasks:
+    - name: grant ec2-user a permissions
+      acl:
+        path: /tmp/abc.txt
+        entity: ec2-user
+        etype: user
+        permissions: x
+        state: present

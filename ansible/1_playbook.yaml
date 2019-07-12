@@ -1,0 +1,8 @@
+- hosts: ec2_server
+  tasks:
+    - name: start apache 
+      service:
+         name: httpd
+         state: started
+      become: yes
+      become_method: sudo

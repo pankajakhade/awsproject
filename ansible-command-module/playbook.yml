@@ -1,0 +1,8 @@
+- hosts: ec2_server
+  tasks:
+   - name: touch abc.txt file
+     command: touch abc.txt
+     args:
+       creates: abc.txt
+       chdir: /tmp
+       warn: false

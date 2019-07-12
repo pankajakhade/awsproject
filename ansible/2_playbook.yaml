@@ -1,0 +1,16 @@
+- hosts: ec2_server
+  tasks:
+    - name: copy file
+      copy:
+        src: /tmp/abc.txt
+        dest: /tmp/abc.txt
+        mode: '0755'
+        backup: yes
+      notify: restart apache
+  handlers:
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
+      become: yes
+      become_method: sudo

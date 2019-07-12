@@ -1,0 +1,21 @@
+- hosts: ec2_server
+  #gather_facts: no
+  vars:
+    name_1: Pankaj
+  tasks:
+   - name: get hostname
+     shell: hostname
+   - name: echo name
+     command: echo {{ name_1}}
+     register: my_var
+   - name: print my_var
+     debug:
+        msg: Hello {{ my_var.stdout }}
+   - name: use of ansible_play_hosts magic var
+     command: echo {{ ansible_play_hosts }}
+   - name: is apache installed?
+     yum:
+        name: htt
+        state: present
+     become: yes
+     become_method: sudo 

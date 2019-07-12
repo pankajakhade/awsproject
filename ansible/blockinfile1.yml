@@ -1,0 +1,8 @@
+- hosts: ec2_server
+  tasks:
+        - name: Insert a block in file
+          blockinfile:
+                path: /tmp/abc.txt
+                block: Hello
+                insertafter: Pankaj
+                marker: "Panks Marker"

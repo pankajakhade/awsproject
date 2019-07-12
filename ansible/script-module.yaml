@@ -1,0 +1,7 @@
+- hosts: ec2_server
+  tasks:
+    - name: Run a abc.sh script
+      script: abc.sh abc.txt
+      args:
+        chdir: /tmp
+        creates: abc.txt

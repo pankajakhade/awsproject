@@ -1,0 +1,14 @@
+- hosts: ec2_server
+  tasks:
+     - name: archive a tmp directory
+       archive:
+        path: /tmp
+        dest: /tmp.gz
+        format: gz
+        remove: no
+       become: yes
+       become_method: sudo
+       changed_when: false
+     - name: archive a file
+       archive:
+        path: /tmp/abc.txt
