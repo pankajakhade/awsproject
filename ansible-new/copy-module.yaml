@@ -1,0 +1,7 @@
+- hosts: ec2_server
+  gather_facts: yes
+  tasks:
+          - name: copy abc.txt file
+            copy:
+                    src: abc.txt
+                    dest: abc.txt
