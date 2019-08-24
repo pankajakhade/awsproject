@@ -1,3 +1,3 @@
 #!/usr/bin/sh
 
-echo 'Hello World!'
+echo 'How are you?'
