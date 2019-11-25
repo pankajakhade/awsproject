@@ -1,3 +1,3 @@
 #!/bin/bash
 
-touch $
+touch $1
