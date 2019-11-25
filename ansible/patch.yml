@@ -1,4 +1,4 @@
-- hosts: ec2_server
+- hosts: servers
   tasks:
         - name: patch file
           patch:

@@ -1,4 +1,4 @@
-- hosts: ec2_server
+- hosts: servers
   tasks:
     - name: Run a abc.sh script
       script: abc.sh abc.txt
