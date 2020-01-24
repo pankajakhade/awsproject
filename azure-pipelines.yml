@@ -15,5 +15,5 @@ pool:
   name: Default
 
 steps:
-- script: sh helloWorld.sh
+- bash: ls
   displayName: 'Run a one-line script'
