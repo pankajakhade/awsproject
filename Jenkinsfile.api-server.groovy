@@ -3,15 +3,6 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
-      - name: jnlp
-        image: jenkins/inbound-agent:3107.v665000b_51092-15
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
       - name: docker
         image: docker:dind  # Docker-in-Docker image
         securityContext:
