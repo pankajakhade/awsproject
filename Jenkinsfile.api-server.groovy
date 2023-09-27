@@ -9,11 +9,11 @@ podTemplate(yaml: '''
           privileged: true  # Required for running Docker inside Docker
         volumeMounts:
           - name: docker-socket
-            mountPath: /var/run/docker.sock
+            mountPath: /var/run/
       volumes:
         - name: docker-socket
           hostPath:
-            path: /var/run/docker.sock
+            path: /var/run/
 ''')  {
     node(POD_LABEL) {
         stage('SCM checkout') {
