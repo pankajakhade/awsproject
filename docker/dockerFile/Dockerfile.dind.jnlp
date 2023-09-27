@@ -1,0 +1,14 @@
+# Use an image that contains Docker (DinD)
+FROM docker:20.10-dind
+
+# Install the Jenkins JNLP agent package
+RUN apk --no-cache add openjdk11-jre
+
+# Create a non-root user for Jenkins
+RUN adduser -D -h /home/jenkins -s /bin/sh jenkins
+
+# Expose Docker daemon over TCP (insecure - use with caution)
+RUN mkdir -p /etc/docker/ && echo '{ "hosts": ["unix:///var/run/docker.sock", "tcp://0.0.0.0:2375"] }' > /etc/docker/daemon.json
+
+# Start the Docker daemon and JNLP agent
+CMD ["sh", "-c", "dockerd & jenkins-agent"]
