@@ -7,13 +7,6 @@ podTemplate(yaml: '''
         image: docker:20.10-dind  # Docker-in-Docker image
         securityContext:
           privileged: true  # Required for running Docker inside Docker
-        volumeMounts:
-          - name: docker-socket
-            mountPath: /var/run/
-      volumes:
-        - name: docker-socket
-          hostPath:
-            path: /var/run/
 ''')  {
     node(POD_LABEL) {
         stage('SCM checkout') {
