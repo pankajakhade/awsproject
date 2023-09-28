@@ -41,6 +41,7 @@ podTemplate(yaml: '''
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
+                println("Jenkins URL is :" + env.JENKINS_URL)
                 def customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
             }
         } catch (Exception e) {
