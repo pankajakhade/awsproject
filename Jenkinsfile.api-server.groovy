@@ -5,8 +5,6 @@ podTemplate(yaml: '''
       containers:
       - name: docker
         image: docker:dind  # Docker-in-Docker image
-        args:
-        - --tls=false
         securityContext:
           privileged: true  # Required for running Docker inside Docker
         volumeMounts:
