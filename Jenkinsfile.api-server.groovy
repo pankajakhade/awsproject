@@ -16,15 +16,15 @@ podTemplate(yaml: '''
           requests:
             memory: "256Mi"
             cpu: "100m"
-        volumeMounts:
-        - mountPath: "/home/jenkins/agent"
-          name: "workspace-volume"
-          readOnly: false
-      - env:
+        env:
         - name: "JENKINS_URL"
           value: "http://jenkins.jenkins.svc.cluster.local:8080/"
         - name: "DOCKER_HOST"
           value: "tcp://localhost:2375"
+        volumeMounts:
+        - mountPath: "/home/jenkins/agent"
+          name: "workspace-volume"
+          readOnly: false
       volumes:
       - name: docker-data
         hostPath:
