@@ -12,8 +12,6 @@ podTemplate(yaml: '''
             mountPath: /var/lib/docker
       - image: "043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:latest"
         name: "jnlp"
-        args:
-        - && sleep 100000
         resources:
           requests:
             memory: "256Mi"
@@ -46,7 +44,7 @@ podTemplate(yaml: '''
 //                 customImage.tag("jenkins-test:test")
 //                 customImage.push()
 //             }
-            sh "docker images"
+            sh "sleep 100000"
         }
     }
 }
