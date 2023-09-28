@@ -5,6 +5,7 @@ podTemplate(yaml: '''
       containers:
       - name: docker
         image: docker:dind  # Docker-in-Docker image
+        command: ["dockerd", "--tls=false", "--host=unix:///var/run/docker.sock", "--host=tcp://localhost:2375"]
         securityContext:
           privileged: true  # Required for running Docker inside Docker
         volumeMounts:
@@ -20,7 +21,7 @@ podTemplate(yaml: '''
         - name: "JENKINS_URL"
           value: "http://jenkins.jenkins.svc.cluster.local:8080/"
         - name: "DOCKER_HOST"
-          value: "tcp://127.0.0.1:2375"
+          value: "tcp://localhost:2375"
         volumeMounts:
         - mountPath: "/home/jenkins/agent"
           name: "workspace-volume"
