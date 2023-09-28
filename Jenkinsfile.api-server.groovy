@@ -44,7 +44,7 @@ podTemplate(yaml: '''
 //                 customImage.tag("jenkins-test:test")
 //                 customImage.push()
 //             }
-            sh "sleep 100000"
+            sh "docker images"
         }
     }
 }
