@@ -43,7 +43,7 @@ podTemplate(yaml: '''
             }
             stage('Build and Push Docker Image') {
                 println("Test begins")
-                customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
+                customImage = docker.build(jenkins-test)
             }
         } catch (Exception e) {
             println(e)
