@@ -10,7 +10,7 @@ podTemplate(yaml: '''
         volumeMounts:
           - name: docker-data
             mountPath: /var/lib/docker
-      - image: "jenkins/inbound-agent:3107.v665000b_51092-15"
+      - image: "043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:latest"
         name: "jnlp"
         resources:
           requests:
