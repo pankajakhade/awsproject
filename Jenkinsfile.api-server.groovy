@@ -36,6 +36,8 @@ podTemplate(yaml: '''
       imagePullPolicy: Always
 ''')  {
     node(POD_LABEL) {
+        import jenkins.model.*
+        jenkins = Jenkins.instance
         stage('SCM checkout') {
             checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/pankajakhade/awsproject.git']])
         }
