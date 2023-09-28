@@ -27,9 +27,7 @@ podTemplate(yaml: '''
           readOnly: false
       volumes:
       - name: docker-data
-        hostPath:
-          path: /var/lib/docker
-          type: Directory
+        emptyDir: {}
       - name: "workspace-volume"
         emptyDir:
           medium: ""
