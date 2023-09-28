@@ -18,8 +18,6 @@ podTemplate(yaml: '''
             memory: "256Mi"
             cpu: "100m"
         env:
-        - name: "JENKINS_URL"
-          value: "http://jenkins.jenkins.svc.cluster.local:8080/"
         - name: "DOCKER_HOST"
           value: "tcp://localhost:2375"
         volumeMounts:
@@ -41,8 +39,8 @@ podTemplate(yaml: '''
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
-                println("Jenkins URL is :" + env.JENKINS_URL)
-                def customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
+                //def customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
+                slackSend channel: 'test', message: 'test'
             }
         } catch (Exception e) {
             println(e)
