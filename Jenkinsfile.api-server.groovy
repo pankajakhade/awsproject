@@ -32,6 +32,7 @@ podTemplate(yaml: '''
         emptyDir:
           medium: ""
       restartPolicy: "Never"
+      imagePullPolicy: Always
 ''')  {
     node(POD_LABEL) {
         stage('SCM checkout') {

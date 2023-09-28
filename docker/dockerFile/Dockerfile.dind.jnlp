@@ -15,3 +15,5 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 # RUN apk --no-cache add curl git
 
 USER jenkins
+
+ENTRYPOINT ["jenkins-agent"]
