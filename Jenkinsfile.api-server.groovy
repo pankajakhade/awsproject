@@ -4,7 +4,7 @@ podTemplate(yaml: '''
     spec:
       containers:
       - name: docker
-        image: docker:20.10-dind  # Docker-in-Docker image
+        image: docker:dind  # Docker-in-Docker image
         securityContext:
           privileged: true  # Required for running Docker inside Docker
         volumeMounts:
