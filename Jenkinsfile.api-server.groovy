@@ -20,7 +20,7 @@ podTemplate(yaml: '''
         - name: "JENKINS_URL"
           value: "http://jenkins.jenkins.svc.cluster.local:8080/"
         - name: "DOCKER_HOST"
-          value: "tcp://localhost:2375"
+          value: "tcp://localhost:2376"
         volumeMounts:
         - mountPath: "/home/jenkins/agent"
           name: "workspace-volume"
