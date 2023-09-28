@@ -36,12 +36,13 @@ podTemplate(yaml: '''
       imagePullPolicy: Always
 ''')  {
     node(POD_LABEL) {
+        def customImage = ""
         try {
             stage('SCM checkout') {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
-                def customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
+                customImage = docker.build(jenkins-test, "-f docker/dockerFile/Dockerfile .")
             }
         } catch (Exception e) {
             println(e)
