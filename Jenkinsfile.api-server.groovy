@@ -47,10 +47,10 @@ podTemplate(yaml: '''
             }
             stage("Slack notification") {
                 slackMessage = """Docker image successfully built with below details:
-                Image URI: 043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:test
-                Jenkins BUILD_URL: """ + env.BUILD_URL + """
-                Jenkins BUILD_LOG: """ + env.BUILD_URL + """/console
-                """
+            Image URI: 043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:test
+            Jenkins BUILD_URL: """ + env.BUILD_URL + """
+            Jenkins BUILD_LOG: """ + env.BUILD_URL + """/console
+            """
                 slackSend channel: 'docker-image-builds-notifications', color: 'good', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
             }
         } catch (Exception e) {
