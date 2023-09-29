@@ -35,9 +35,9 @@ podTemplate(yaml: '''
 ''')  {
     @Library('jenkins-shared-library') _
     //import org.tenant.jenkinsCI //For future use
+    //def object = new jenkinsCI() //For future use
     node(POD_LABEL) {
         try {
-            def object = new utils()
             stage('SCM checkout') {
                 scmCheckout.scmCheckoutAtBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", branchName: "master", credentialsId: "jenkins-ssh")
             }
