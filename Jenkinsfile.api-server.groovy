@@ -64,7 +64,7 @@ podTemplate(yaml: '''
                  customImage: customImage)
             }
             stage("Slack notification") {
-                slackMessage = env.JOB_NAME + """Job with Branch=""" + env.BRANCH_NAME + """ finished successfully:
+                slackMessage = """**""" + env.JOB_NAME + """Job with Branch=""" + env.BRANCH_NAME + """ finished successfully:**
         Image URI: """ + ecrRepoURL + """/""" + repoName + """:""" + imageTag + """
         Jenkins BUILD_URL: """ + env.BUILD_URL + """
         Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
