@@ -37,7 +37,7 @@ podTemplate(yaml: '''
     //import org.tenant.jenkinsCI //For future use
     //def object = new jenkinsCI() //For future use
     node(POD_LABEL) {
-        def imageTag = env.BRANCH_NAME + "." + sh(returnStdout: true, script: 'git rev-parse --short HEAD').toString().trim()
+        def imageTag = null
         def ecrRepoURL = "https://043196765225.dkr.ecr.us-east-1.amazonaws.com"
         def repoName = "jenkins-test"
         def region = "us-east-1"
@@ -53,6 +53,7 @@ podTemplate(yaml: '''
                 scmCheckout.scmCheckoutAtBranch(scmUrl: scmUrl, branchName: branchName, credentialsId: gitCredentialsId)
             }
             stage('Build and Push Docker Image') {
+                imageTag = env.BRANCH_NAME + "." + sh(returnStdout: true, script: 'git rev-parse --short HEAD').toString().trim()
                 def customImage = dockerOperations.dockerBuild(repoName: repoName, imageTag: imageTag,
                 dockerFilePath: dockerFilePath,
                 dockerBuildContent: dockerBuildContent)
