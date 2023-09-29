@@ -1,1 +1,1 @@
-FROM pankajakhade/ubuntu:latest
+FROM ubuntu:latest
