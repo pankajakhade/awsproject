@@ -34,23 +34,26 @@ podTemplate(yaml: '''
       imagePullPolicy: Always
 ''')  {
     @Library('jenkins-shared-library') _
-    import org.tenant.utils
+    //import org.tenant.jenkinsCI //For future use
     node(POD_LABEL) {
         try {
             def object = new utils()
             stage('SCM checkout') {
-                //First parameter: scmUrl
-                //Second parameter: credentialsId
-                //Third parameter: branchName
-                object.scmCheckoutToBranch("https://github.com/pankajakhade/awsproject.git", "jenkins-ssh", "master")
-                //checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'https://github.com/pankajakhade/awsproject.git']])
+                scmCheckout.scmCheckoutAtBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", branchName: "master", credentialsId: "jenkins-ssh")
             }
             stage('Build and Push Docker Image') {
-                docker.withRegistry("https://043196765225.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:jenkins-ecr-creds") {
-                    def customImage = docker.build("jenkins-test:test", "-f docker/dockerFile/Dockerfile .")
-                    //customImage.tag("test")
-                    customImage.push()
-                }
+                def imageTag = env.BRANCH_NAME + sh(returnStatus: true, script: 'git rev-parse --short HEAD').trim()
+                def ecrRepoURL = "https://043196765225.dkr.ecr.us-east-1.amazonaws.com"
+                def region = "us-east-1"
+                def ecrCredsInJenkins = "jenkins-ecr-creds"
+                def customImage = dockerOperations.dockerBuild(repoName: "jenkins-test", imageTag: imageTag,
+                dockerFilePath: "docker/dockerFile/Dockerfile",
+                dockerBuildContent: ".")
+
+                dockerOperations.dockerPush(ecrRepoURL: ecrRepoURL,
+                 region: region,
+                 ecrCredsInJenkins: ecrCredsInJenkins,
+                 customImage: customImage)
             }
             stage("Slack notification") {
                 slackMessage = env.JOB_NAME + """ with Branch=""" + env.BRANCH_NAME + """ finished successfully:
