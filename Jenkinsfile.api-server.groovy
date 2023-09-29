@@ -39,7 +39,7 @@ podTemplate(yaml: '''
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
-                docker.withRegistry("https://043196765225.dkr.ecr.us-east-1.amazonaws.com") {
+                docker.withRegistry("https://043196765225.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:arn:aws:iam::043196765225:role/mgmt-eks-node-group-role") {
                     def customImage = docker.build("jenkins-test:test", "-f docker/dockerFile/Dockerfile .")
                     //customImage.tag("test")
                     customImage.push()
