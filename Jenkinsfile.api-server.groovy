@@ -42,7 +42,7 @@ podTemplate(yaml: '''
                 scmCheckout.scmCheckoutAtBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", branchName: "master", credentialsId: "jenkins-ssh")
             }
             stage('Build and Push Docker Image') {
-                def imageTag = env.BRANCH_NAME + "." + sh(returnStatus: true, script: 'git rev-parse --short HEAD').trim()
+                def imageTag = env.BRANCH_NAME + "." + sh(returnStatus: true, script: 'git rev-parse --short HEAD').toString().trim()
                 def ecrRepoURL = "https://043196765225.dkr.ecr.us-east-1.amazonaws.com"
                 def region = "us-east-1"
                 def ecrCredsInJenkins = "jenkins-ecr-creds"
