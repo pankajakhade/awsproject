@@ -50,35 +50,21 @@ podTemplate(yaml: '''
         def gitCredentialsId = "jenkins-ssh"
         try {
             stage('SCM checkout') {
-                scmCheckout.scmCheckoutAtBranch(scmUrl: scmUrl, branchName: branchName, credentialsId: gitCredentialsId)
+                scmCheckout.scmCheckoutAtBranch(scmUrl, branchName, gitCredentialsId)
             }
             stage('Build and Push Docker Image') {
                 imageTag = env.BRANCH_NAME + "." + sh(returnStdout: true, script: 'git rev-parse --short HEAD').toString().trim()
-                def customImage = dockerOperations.dockerBuild(repoName: repoName, imageTag: imageTag,
-                dockerFilePath: dockerFilePath,
-                dockerBuildContent: dockerBuildContent)
+                def customImage = dockerOperations.dockerBuild(repoName, imageTag, dockerFilePath, dockerBuildContent)
 
-                dockerOperations.dockerPush(ecrRepoURL: ecrRepoURL,
-                 region: region,
-                 ecrCredsInJenkins: ecrCredsInJenkins,
-                 customImage: customImage)
+                dockerOperations.dockerPush(ecrRepoURL, region, ecrCredsInJenkins, customImage)
             }
             stage("Slack notification") {
-                slackMessage = """**""" + env.JOB_NAME + """ Job with Branch=""" + env.BRANCH_NAME + """ finished successfully:**
-    Image URI: """ + ecrRepoURL + """/""" + repoName + """:""" + imageTag + """
-    Jenkins BUILD_URL: """ + env.BUILD_URL + """
-    Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
-                """
-                slackSend channel: 'docker-image-builds-notifications', color: 'good', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
+                slack.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
             }
         } catch (Exception e) {
             stage("Slack Send Error") {
-                slackMessage = """**""" + env.JOB_NAME + """ Job with Branch=""" + env.BRANCH_NAME + """ is failed:**
-    Jenkins BUILD_URL: """ + env.BUILD_URL + """
-    Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
-    Exception/Error: """ + e
                 println(e)
-                slackSend channel: 'docker-image-builds-notifications', color: 'danger', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
+                slack.slackSendFailureMessage('docker-image-builds-notifications')
             }
         }
     }
