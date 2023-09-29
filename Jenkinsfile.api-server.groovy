@@ -34,9 +34,10 @@ podTemplate(yaml: '''
       imagePullPolicy: Always
 ''')  {
     @Library('jenkins-shared-library') _
+    import org.tenant.utils
     node(POD_LABEL) {
         try {
-            def object = new org.tenant.utils()
+            def object = new utils()
             stage('SCM checkout') {
                 object.scmCheckoutToBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", credentialsId: "jenkins-ssh",
                     branchName: "master")
