@@ -11,7 +11,7 @@ podTemplate(yaml: '''
         volumeMounts:
           - name: docker-data
             mountPath: /var/lib/docker
-      - image: "380246911330.dkr.ecr.us-east-1.amazonaws.com/jenkins:jnlp-v1"
+      - image: "043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:latest"
         name: "jnlp"
         resources:
           requests:
