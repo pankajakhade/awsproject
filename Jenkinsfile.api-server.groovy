@@ -39,8 +39,10 @@ podTemplate(yaml: '''
         try {
             def object = new utils()
             stage('SCM checkout') {
-                object.scmCheckoutToBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", credentialsId: "jenkins-ssh",
-                    branchName: "master")
+                //First parameter: scmUrl
+                //Second parameter: credentialsId
+                //Third parameter: branchName
+                object.scmCheckoutToBranch("https://github.com/pankajakhade/awsproject.git", "jenkins-ssh", "master")
                 //checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
