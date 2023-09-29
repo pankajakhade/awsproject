@@ -5,6 +5,7 @@ class utils implements Serializable {
         def scmUrl = params.scmUrl ?: error("scmUrl is required.")
         def branchName = params.branchName ?: error("scmUrl is required.")
         def credentialsId = params.credentialsId ?: error("credentialsId is required.")
-        checkout scmGit(branches: [[name: "*/$branchName"]], extensions: [], userRemoteConfigs: [[credentialsId: credentialsId, url: scmUrl]])
+        println(scmUrl + branchName + credentialsId + "hi")
+        checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'https://github.com/pankajakhade/awsproject.git']])
     }
 }
