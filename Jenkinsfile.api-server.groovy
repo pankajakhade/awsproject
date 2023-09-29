@@ -33,10 +33,14 @@ podTemplate(yaml: '''
       restartPolicy: "Never"
       imagePullPolicy: Always
 ''')  {
+    @Library('jenkins-shared-library') _
     node(POD_LABEL) {
         try {
+            def object = new org.tenant.utils()
             stage('SCM checkout') {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'https://github.com/pankajakhade/awsproject.git']])
+                object.scmCheckoutToBranch(scmUrl: "https://github.com/pankajakhade/awsproject.git", credentialsId: "jenkins-ssh",
+                    branchName: "master")
+                //checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh', url: 'https://github.com/pankajakhade/awsproject.git']])
             }
             stage('Build and Push Docker Image') {
                 docker.withRegistry("https://043196765225.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:jenkins-ecr-creds") {
@@ -46,17 +50,21 @@ podTemplate(yaml: '''
                 }
             }
             stage("Slack notification") {
-                slackMessage = """Docker image successfully built with below details:
-            Image URI: 043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:test
-            Jenkins BUILD_URL: """ + env.BUILD_URL + """
-            Jenkins BUILD_LOG: """ + env.BUILD_URL + """/console
-            """
+                slackMessage = env.JOB_NAME + """ with Branch=""" + env.BRANCH_NAME + """ finished successfully:
+        Image URI: 043196765225.dkr.ecr.us-east-1.amazonaws.com/jenkins-test:test
+        Jenkins BUILD_URL: """ + env.BUILD_URL + """
+        Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
+        """
                 slackSend channel: 'docker-image-builds-notifications', color: 'good', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
             }
         } catch (Exception e) {
-            println(e)
-            stage("Slack Send Exception") {
-                slackSend channel: 'docker-image-builds-notifications', color: 'danger', failOnError: true , message: e, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
+            stage("Slack Send Error") {
+                slackMessage = env.JOB_NAME + """ with Branch=""" + env.BRANCH_NAME + """ failed:
+        Jenkins BUILD_URL: """ + env.BUILD_URL + """
+        Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
+        Exception/Error: """ + e
+                println(e)
+                slackSend channel: 'docker-image-builds-notifications', color: 'danger', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
             }
         }
     }
