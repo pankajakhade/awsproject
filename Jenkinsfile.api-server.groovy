@@ -40,8 +40,8 @@ podTemplate(yaml: '''
             }
             stage('Build and Push Docker Image') {
                 docker.withRegistry("https://043196765225.dkr.ecr.us-east-1.amazonaws.com") {
-                    def customImage = docker.build("jenkins-test", "-f docker/dockerFile/Dockerfile .")
-                    customImage.tag("test")
+                    def customImage = docker.build("jenkins-test:test", "-f docker/dockerFile/Dockerfile .")
+                    //customImage.tag("test")
                     customImage.push()
                 }
             }
