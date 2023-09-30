@@ -5,4 +5,5 @@ def dockerBuildAndPush(repoName, dockerFilePath, dockerBuildContent, ecrRepoURL,
         def customImage = docker.build(repoName + ":" + imageTag, "-f " + dockerFilePath + " " + dockerBuildContent)
         customImage.push()
     }
+    return imageTag
 }

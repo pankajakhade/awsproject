@@ -53,8 +53,8 @@ podTemplate(yaml: '''
                 scmCheckout.scmCheckoutAtBranch(scmUrl, branchName, gitCredentialsId)
             }
             stage('Build and Push Docker Image') {
-                dockerOperations.dockerBuildAndPush(repoName, dockerFilePath, dockerBuildContent,
-                    ecrRepoURL, region, ecrCredsInJenkins)
+                imageTag = dockerOperations.dockerBuildAndPush(repoName, dockerFilePath, dockerBuildContent,
+                                ecrRepoURL, region, ecrCredsInJenkins)
             }
             stage("Slack notification") {
                 slackSendMessages.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
