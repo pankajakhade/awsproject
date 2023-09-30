@@ -6,6 +6,6 @@ def dockerBuild(repoName, imageTag, dockerFilePath, dockerBuildContent) {
 
 def dockerPush(ecrRepoURL, region, ecrCredsInJenkins, customImage) {
     docker.withRegistry(ecrRepoURL, "ecr:" + region + ":" + ecrCredsInJenkins) {
-        params.customImage.push()
+        customImage.push()
     }
 }
