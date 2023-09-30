@@ -38,16 +38,20 @@ podTemplate(yaml: '''
     //def object = new jenkinsCI() //For future use
     node(POD_LABEL) {
         def imageTag = null
-        def ecrRepoURL = "https://043196765225.dkr.ecr.us-east-1.amazonaws.com"
-        def repoName = "jenkins-test"
-        def region = "us-east-1"
-        def ecrCredsInJenkins = "jenkins-ecr-creds"
-        def dockerFilePath = "docker/dockerFile/Dockerfile"
-        def dockerBuildContent = "."
+        def (ecrRepoURL, repoName, region, ecrCredsInJenkins, dockerFilePath, dockerBuildContent) = [
+                "https://043196765225.dkr.ecr.us-east-1.amazonaws.com",
+                "jenkins-test",
+                "us-east-1",
+                "jenkins-ecr-creds",
+                "docker/dockerFile/Dockerfile",
+                "."
+            ]
+        def (scmUrl, branchName, gitCredentialsId) = [
+                "https://github.com/pankajakhade/awsproject.git",
+                "master",
+                "jenkins-ssh"
+            ]
 
-        def scmUrl = "https://github.com/pankajakhade/awsproject.git"
-        def branchName = "master"
-        def gitCredentialsId = "jenkins-ssh"
         try {
             stage('SCM checkout') {
                 scmCheckout.scmCheckoutAtBranch(scmUrl, branchName, gitCredentialsId)
