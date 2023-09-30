@@ -8,9 +8,9 @@ Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
 }
 
 def slackSendFailureMessage(channelName, exception) {
-    slackMessage = """**JobName=""" + env.JOB_NAME + """ with BranchName==""" + env.BRANCH_NAME + """ is failed:**
+    slackMessage = """**JobName=""" + env.JOB_NAME + """ with BranchName=""" + env.BRANCH_NAME + """ is failed:**
 Jenkins BUILD_URL: """ + env.BUILD_URL + """
 Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
-Exception/Error: """ + exception
+Exception/Error: \n============\n""" + exception
     slackSend channel: channelName, color: 'danger', failOnError: true , message: slackMessage, teamDomain: 'storelocal', tokenCredentialId: 'slack-token'
 }
