@@ -1,5 +1,5 @@
 def slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, channelName) {
-    slackMessage = """**""" + env.JOB_NAME + """ Job with Branch=""" + env.BRANCH_NAME + """ finished successfully:**
+    slackMessage = """**JobName=""" + env.JOB_NAME + """ with BranchName=""" + env.BRANCH_NAME + """ finished successfully:**
 Image URI: """ + ecrRepoURL + """/""" + repoName + """:""" + imageTag + """
 Jenkins BUILD_URL: """ + env.BUILD_URL + """
 Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
@@ -8,7 +8,7 @@ Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
 }
 
 def slackSendFailureMessage(channelName, exception) {
-    slackMessage = """**""" + env.JOB_NAME + """ Job with Branch=""" + env.BRANCH_NAME + """ is failed:**
+    slackMessage = """**JobName=""" + env.JOB_NAME + """ with BranchName==""" + env.BRANCH_NAME + """ is failed:**
 Jenkins BUILD_URL: """ + env.BUILD_URL + """
 Jenkins BUILD_LOG: """ + env.BUILD_URL + """console
 Exception/Error: """ + exception
