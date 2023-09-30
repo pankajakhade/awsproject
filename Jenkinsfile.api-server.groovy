@@ -53,8 +53,8 @@ podTemplate(yaml: '''
                 scmCheckout.scmCheckoutAtBranch(scmUrl, branchName, gitCredentialsId)
             }
             stage('Build and Push Docker Image') {
-                dockerOperations.dockerBuildAndPush(repoName, dockerFilePath,
-                    dockerBuildContent, ecrRepoURL, region, ecrCredsInJenkins, customImage)
+                dockerOperations.dockerBuildAndPush(repoName, dockerFilePath, dockerBuildContent,
+                    ecrRepoURL, region, ecrCredsInJenkins)
             }
             stage("Slack notification") {
                 slackSendMessages.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
@@ -62,7 +62,7 @@ podTemplate(yaml: '''
         } catch (Exception e) {
             stage("Slack Send Error") {
                 println(e)
-                slackSendMessages.slackSendFailureMessage('docker-image-builds-notifications')
+                slackSendMessages.slackSendFailureMessage('docker-image-builds-notifications', e)
             }
         }
     }
