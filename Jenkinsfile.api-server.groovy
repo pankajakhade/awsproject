@@ -53,10 +53,8 @@ podTemplate(yaml: '''
                 scmCheckout.scmCheckoutAtBranch(scmUrl, branchName, gitCredentialsId)
             }
             stage('Build and Push Docker Image') {
-                imageTag = env.BRANCH_NAME + "." + sh(returnStdout: true, script: 'git rev-parse --short HEAD').toString().trim()
-                def customImage = dockerOperations.dockerBuild(repoName, imageTag, dockerFilePath, dockerBuildContent)
-
-                dockerOperations.dockerPush(ecrRepoURL, region, ecrCredsInJenkins, customImage)
+                dockerOperations.dockerBuildAndPush(repoName, dockerFilePath,
+                    dockerBuildContent, ecrRepoURL, region, ecrCredsInJenkins, customImage)
             }
             stage("Slack notification") {
                 slackSendMessages.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
