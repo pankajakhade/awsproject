@@ -59,12 +59,12 @@ podTemplate(yaml: '''
                 dockerOperations.dockerPush(ecrRepoURL, region, ecrCredsInJenkins, customImage)
             }
             stage("Slack notification") {
-                slackSend.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
+                slackSendMessages.slackSendSuccessMessage(ecrRepoURL, repoName, imageTag, 'docker-image-builds-notifications')
             }
         } catch (Exception e) {
             stage("Slack Send Error") {
                 println(e)
-                slackSend.slackSendFailureMessage('docker-image-builds-notifications')
+                slackSendMessages.slackSendFailureMessage('docker-image-builds-notifications')
             }
         }
     }
